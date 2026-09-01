@@ -49,7 +49,34 @@ Open http://localhost:3002.
 - `npm run typecheck` - run TypeScript checks
 - `npm run prisma:generate` - generate Prisma Client
 - `npm run prisma:migrate` - create/apply database migrations
+- `npm run prisma:deploy` - apply existing migrations in production
 - `npm run prisma:seed` - add sample bills
+
+## Vercel Deployment
+
+Add these Environment Variables in Vercel Project Settings before deploying:
+
+```env
+DATABASE_URL="postgresql://postgres.PROJECT_ID:DB_PASSWORD@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+DIRECT_URL="postgresql://postgres.PROJECT_ID:DB_PASSWORD@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+NEXT_PUBLIC_SUPABASE_URL="https://PROJECT_ID.supabase.co"
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="your_publishable_key"
+RM_ADMIN_USERNAME="admin@RM"
+RM_ADMIN_PASSWORD="change-this-password"
+RM_AUTH_TOKEN="replace-with-a-long-random-session-token"
+```
+
+Use Vercel's default build command:
+
+```bash
+npm run build
+```
+
+Before the first production deploy, run migrations once from a trusted terminal with the same production `.env` values:
+
+```bash
+npm run prisma:deploy
+```
 
 ## Current Production Notes
 
