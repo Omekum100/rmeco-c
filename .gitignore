@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+dist
+.env
+.env.local
+public/uploads/*
+!public/uploads/.gitkeep
+!public/uploads/bills/.gitkeep
+*.log
+tsconfig.tsbuildinfo
