@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createParty, deleteParty, updateParty } from "@/lib/data/parties";
 import { withToast } from "@/lib/toastUrl";
 import { partySchema } from "@/lib/validations/party";
 
@@ -49,6 +48,7 @@ export async function createPartyAction(
   }
 
   try {
+    const { createParty } = await import("@/lib/data/parties");
     const party = await createParty(parsed.data);
     revalidatePartyPaths(party.id);
   } catch (error) {
@@ -77,6 +77,7 @@ export async function updatePartyAction(
   }
 
   try {
+    const { updateParty } = await import("@/lib/data/parties");
     await updateParty(id, parsed.data);
     revalidatePartyPaths(id);
   } catch (error) {
@@ -91,6 +92,7 @@ export async function updatePartyAction(
 
 export async function deletePartyAction(id: string) {
   try {
+    const { deleteParty } = await import("@/lib/data/parties");
     await deleteParty(id);
     revalidatePartyPaths(id);
   } catch (error) {

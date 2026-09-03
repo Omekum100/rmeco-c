@@ -2,13 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import {
-  createBill,
-  deleteBill,
-  getBillById,
-  updateBill
-} from "@/lib/data/bills";
-import { getPartyById } from "@/lib/data/parties";
 import { withToast } from "@/lib/toastUrl";
 import { billSchema } from "@/lib/validations/bill";
 
@@ -90,6 +83,8 @@ export async function createBillAction(
   }
 
   try {
+    const { createBill } = await import("@/lib/data/bills");
+    const { getPartyById } = await import("@/lib/data/parties");
     const party = parsed.data.partyId ? await getPartyById(parsed.data.partyId) : null;
     const billImageUrl = await saveBillImage(getSubmittedBillImage(formData));
     const bill = await createBill({
@@ -124,6 +119,8 @@ export async function updateBillAction(
   }
 
   try {
+    const { getBillById, updateBill } = await import("@/lib/data/bills");
+    const { getPartyById } = await import("@/lib/data/parties");
     const existingBill = await getBillById(id);
 
     if (!existingBill) {
@@ -150,6 +147,7 @@ export async function updateBillAction(
 
 export async function deleteBillAction(id: string) {
   try {
+    const { deleteBill } = await import("@/lib/data/bills");
     await deleteBill(id);
     revalidateBillPaths(id);
   } catch (error) {
